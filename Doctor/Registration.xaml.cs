@@ -68,7 +68,7 @@ namespace Doctor
                         cmd.Parameters.AddWithValue("@SN", TbSN.Text);
                         cmd.Parameters.AddWithValue("@MN", TbMN.Text);
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Проверка пройдена. Аккаунт зарегистрирован.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Аккаунт зарегистрирован.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                         this.Close();
                     } 
                 }
