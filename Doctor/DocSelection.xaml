@@ -14,7 +14,7 @@
         <Label Content="Врач" HorizontalAlignment="Left" Margin="78,80,0,0" VerticalAlignment="Top" Height="27"/>
         <Label Content="День записи" HorizontalAlignment="Left" Margin="36,107,0,0" VerticalAlignment="Top" Height="24"/>
         <Label Content="Время записи" HorizontalAlignment="Left" Margin="29,136,0,0" VerticalAlignment="Top" Height="24"/>
-        <Button x:Name="BtnAdd" Content="Запись" HorizontalAlignment="Left" Margin="185,170,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BtnAdd" Content="Запись" HorizontalAlignment="Left" Margin="185,170,0,0" VerticalAlignment="Top" Width="75" Click="BtnAdd_Click" />
         <DatePicker x:Name="DpDate" HorizontalAlignment="Left" Margin="120,108,0,0" VerticalAlignment="Top" Width="140" SelectedDateChanged="DpDate_SelectedDateChanged"/>
 
     </Grid>

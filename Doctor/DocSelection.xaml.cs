@@ -76,5 +76,58 @@ namespace Doctor
                 MessageBox.Show(ex.Message);
             }
         }
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(DBConnection.myConn))
+            {
+                connection.Open();
+                if (CbSpec.SelectedIndex == -1 || CbDoc.SelectedIndex == -1 || String.IsNullOrEmpty(DpDate.Text) || CbTime.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    int IdStatus, IdPost;
+                    bool NameStat = int.TryParse(CbStat.SelectedValue.ToString(), out IdStatus);
+                    bool NamePost = int.TryParse(CbPost.SelectedValue.ToString(), out IdPost);
+
+                    string query = $@"INSERT INTO Appointment('FirstName', 'SecondName', 'MiddleName', 'Dateofbirth', 'Phone', 'idPost', 'idStatus') values (@FN, @SN, @MN, @Date, @Phone, '{IdPost}', '{IdStatus}')";
+                    SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@SN", TbSN.Text);
+                        cmd.Parameters.AddWithValue("@FN", TbFN.Text);
+                        cmd.Parameters.AddWithValue("@MN", TbMN.Text);
+                        cmd.Parameters.AddWithValue("@Date", DpB.Text);
+                        cmd.Parameters.AddWithValue("@Phone", TbPhone.Text);
+                        /*cmd.Parameters.AddWithValue("@Post", CbPost.SelectedItem);
+                        cmd.Parameters.AddWithValue("@Stat", CbStat.SelectedItem);*/
+                        cmd.ExecuteNonQuery();
+                        MessageBoxResult result = MessageBox.Show("Внести ещё одного сотрудника? ", "Пользователь добавлен", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            TbFN.Clear();
+                            TbSN.Clear();
+                            TbMN.Clear();
+                            TbPhone.Clear();
+                            DpB.Text = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                            TbPhone.Clear();
+                            CbStat.SelectedIndex = -1;
+                            CbPost.SelectedIndex = -1;
+                        }
+                        else
+                        {
+                            this.Close();
+                        }
+
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+
+            }
+        }
     }
 }
