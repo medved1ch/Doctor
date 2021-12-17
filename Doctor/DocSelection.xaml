@@ -9,12 +9,12 @@
     <Grid>
         <ComboBox x:Name="CbSpec" HorizontalAlignment="Left" Margin="120,50,0,0" VerticalAlignment="Top" Width="140" Height="21"/>
         <ComboBox x:Name="CbDoc" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Width="140" Height="21"/>
-        <ComboBox x:Name="CbTime" HorizontalAlignment="Left" Margin="120,139,0,0" VerticalAlignment="Top" Width="140" Height="21"/>
+        <ComboBox x:Name="CbTime" HorizontalAlignment="Left" Margin="120,139,0,0" VerticalAlignment="Top" DisplayMemberPath="Time" Width="140" Height="21"/>
         <Label Content="Специалист" HorizontalAlignment="Left" Margin="40,47,0,0" VerticalAlignment="Top" Height="24"/>
         <Label Content="Врач" HorizontalAlignment="Left" Margin="78,80,0,0" VerticalAlignment="Top" Height="27"/>
         <Label Content="День записи" HorizontalAlignment="Left" Margin="36,107,0,0" VerticalAlignment="Top" Height="24"/>
         <Label Content="Время записи" HorizontalAlignment="Left" Margin="29,136,0,0" VerticalAlignment="Top" Height="24"/>
-        <Button Content="Запись" HorizontalAlignment="Left" Margin="185,170,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BtnAdd" Content="Запись" HorizontalAlignment="Left" Margin="185,170,0,0" VerticalAlignment="Top" Width="75"/>
         <DatePicker x:Name="DpDate" HorizontalAlignment="Left" Margin="120,108,0,0" VerticalAlignment="Top" Width="140" SelectedDateChanged="DpDate_SelectedDateChanged"/>
 
     </Grid>
