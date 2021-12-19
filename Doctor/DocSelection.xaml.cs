@@ -139,7 +139,11 @@ namespace Doctor
                     cmd.ExecuteNonQuery();
                     if (MessageBox.Show("Вы успешно записались! Хотите распечатать талон?", "Печать", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        AppPrint appPrint = new AppPrint();
+                        query = $@"SELECT Appointment.id, Appointment.DateApp, Appointment.TimeApp, Post.PostName, Doctor.SecondName, Doctor.FirstName, Doctor.MiddleName, Cabinet.CabNumber FROM Appointment INNER JOIN Doctor on Doctor.id = Appointment.DocID INNER JOIN Post on Post.id = Doctor.PostID INNER JOIN DocSchedule on DocSchedule.DocID = Appointment.DocID AND DocSchedule.Day = Appointment.DateApp INNER JOIN Cabinet on Cabinet.id = DocSchedule.CabID WHERE Appointment.PacientID = '{PacientID}' AND Appointment.DocID = '{DocID}' AND Appointment.DateApp = '{Date_in}' AND Appointment.TimeApp = '{Time_in}'";
+                        DataTable dt = new DataTable();
+                        cmd = new SQLiteCommand(query, connection);
+                        dt.Load(cmd.ExecuteReader());
+                        AppPrint appPrint = new AppPrint(dt);
                         appPrint.Owner = this;
 /*                        appPrint.Close();*/
                     } 
