@@ -7,8 +7,18 @@
         mc:Ignorable="d"
         Title="DocSelection" Height="250" Width="340">
     <Grid>
-        <ComboBox x:Name="CbSpec" HorizontalAlignment="Left" Margin="120,50,0,0" VerticalAlignment="Top" Width="140" Height="21"/>
-        <ComboBox x:Name="CbDoc" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Width="140" Height="21"/>
+        <ComboBox x:Name="CbSpec" HorizontalAlignment="Left" Margin="120,50,0,0" VerticalAlignment="Top" DisplayMemberPath="PostName" Width="140" Height="21" SelectionChanged="CbSpec_SelectionChanged"/>
+        <ComboBox x:Name="CbDoc" HorizontalAlignment="Left" Margin="120,80,0,0" VerticalAlignment="Top" Width="140" Height="21" SelectionChanged="CbDoc_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=FirstName}" />
+                        <TextBlock Margin="2,0,0,0" Text="{Binding Path=SecondName}" />
+                        <TextBlock Margin="2,0,0,0" Text="{Binding Path=MiddleName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <ComboBox x:Name="CbTime" HorizontalAlignment="Left" Margin="120,139,0,0" VerticalAlignment="Top" DisplayMemberPath="Time" Width="140" Height="21"/>
         <Label Content="Специалист" HorizontalAlignment="Left" Margin="40,47,0,0" VerticalAlignment="Top" Height="24"/>
         <Label Content="Врач" HorizontalAlignment="Left" Margin="78,80,0,0" VerticalAlignment="Top" Height="27"/>

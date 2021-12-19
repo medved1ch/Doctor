@@ -20,7 +20,7 @@
             <TextBox x:Name="TbPolis" HorizontalAlignment="Left" Height="26" Margin="149,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231"/>
             <Label Content="Отчество" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="39,71,0,0" VerticalAlignment="Top" Width="105" Height="26"/>
             <TextBox x:Name="TbMN" HorizontalAlignment="Left" Height="26" Margin="149,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231"/>
-            <Button x:Name="BtnReg" Content="Регистрация" HorizontalAlignment="Left" Margin="285,210,0,0" VerticalAlignment="Top" Width="95" Height="24"/>
+            <Button x:Name="BtnReg" Content="Регистрация" HorizontalAlignment="Left" Margin="285,210,0,0" VerticalAlignment="Top" Width="95" Height="24" Click="BtnNext_Click"/>
         </Grid>
     </Grid>
 </Window>
