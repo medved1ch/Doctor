@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Doctor"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" Height="200" Width="450" ResizeMode="NoResize">
+        Title="Авторизация" WindowStartupLocation="CenterScreen" Height="200" Width="450" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="BtnSign" Content="Войти" HorizontalAlignment="Left" Margin="285,124,0,0" VerticalAlignment="Top" Width="95" Height="24" Click="BtnSign_Click"/>
         <Button x:Name="BtnReg" Content="Регистрация" HorizontalAlignment="Left" Margin="185,124,0,0" VerticalAlignment="Top" Width="95" Height="24" Click="BtnReg_Click"/>
         <Label Content="Номер телефона" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="39,40,0,0" VerticalAlignment="Top" Width="105" Height="26"/>
         <Label Content="Пароль" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="19,71,0,0" VerticalAlignment="Top" Width="124" Height="26"/>
-        <TextBox x:Name="TbPhone" HorizontalAlignment="Left" Height="26" Margin="149,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231"/>
+        <TextBox x:Name="TbPhone" TextChanged="TbPhone_TextChanged" PreviewTextInput="TbPhone_PreviewTextInput" GotFocus="TbPhone_GotFocus" Text="+7(___)___-__-__"  VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="26" Margin="149,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="231"/>
         <PasswordBox x:Name="PbPass" HorizontalAlignment="Left" Height="26" Margin="149,71,0,0" VerticalAlignment="Top" Width="231"/>
 
     </Grid>

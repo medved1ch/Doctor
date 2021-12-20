@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Doctor"
         mc:Ignorable="d"
-        Title="DocSelection" Height="250" Width="340" WindowStartupLocation="CenterScreen">
+        Title="Запись на приём" Height="250" Width="340" WindowStartupLocation="CenterScreen">
     <Grid>
         <ComboBox x:Name="CbSpec" HorizontalAlignment="Left" Margin="120,50,0,0" VerticalAlignment="Top" DisplayMemberPath="PostName" Width="140" Height="21" SelectionChanged="CbSpec_SelectionChanged"/>
         <ComboBox x:Name="CbDoc" HorizontalAlignment="Left" IsEnabled="False" Margin="120,80,0,0" VerticalAlignment="Top" Width="140" Height="21" SelectionChanged="CbDoc_SelectionChanged">
