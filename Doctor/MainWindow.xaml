@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Doctor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="450" ResizeMode="NoResize">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" Height="200" Width="450" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="BtnSign" Content="Войти" HorizontalAlignment="Left" Margin="285,124,0,0" VerticalAlignment="Top" Width="95" Height="24" Click="BtnSign_Click"/>
         <Button x:Name="BtnReg" Content="Регистрация" HorizontalAlignment="Left" Margin="185,124,0,0" VerticalAlignment="Top" Width="95" Height="24" Click="BtnReg_Click"/>

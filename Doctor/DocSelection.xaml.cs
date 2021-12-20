@@ -76,51 +76,57 @@ namespace Doctor
 
         private void DpDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            CbTime.IsEnabled = true;
             dtTime.Clear();
             CbTime.ItemsSource = dtTime.DefaultView;
-            try
+            if (CbDoc.SelectedValue != null)
+            if (CbDoc.SelectedValue != null)
             {
-                using (SQLiteConnection connection = new SQLiteConnection(DBConnection.myConn))
+                try
                 {
-                    connection.Open();
-                    string Date_in = DpDate.Text;
-                    string DocID = Convert.ToString(dtDocName.Rows[CbDoc.SelectedIndex][0]);
-                    string query = $@"SELECT ScheduleStart FROM DocSchedule WHERE DocID = '{DocID}'  AND Day = '{Date_in}'";
-                    string query1 = $@"SELECT ScheduleEND FROM DocSchedule WHERE DocID = '{DocID}'  AND Day = '{Date_in}'";
-                    SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                    SQLiteCommand cmd1 = new SQLiteCommand(query1, connection);
-                    string start = Convert.ToString(cmd.ExecuteScalar());
-                    string end = Convert.ToString(cmd1.ExecuteScalar());
-                    DateTime schstart = DateTime.Parse(start);
-                    DateTime schend = DateTime.Parse(end);
-                    for (DateTime ii11 = schstart; ii11 < schend; ii11 = ii11.AddHours(0.25))
+                    using (SQLiteConnection connection = new SQLiteConnection(DBConnection.myConn))
                     {
-                        DataRow _ravi = dtTime.NewRow();
-                        //MessageBox.Show(ii11.ToString("t"));
-                        _ravi["Time"] = ii11.ToString("t");
-                        dtTime.Rows.Add(_ravi);
-                    }
-                    string query2 = $@"SELECT TimeApp FROM Appointment WHERE DocID = '2'  AND DateApp = '{Date_in}'";
-                    SQLiteCommand cmd2 = new SQLiteCommand(query2, connection);
-                    DataTable dt2 = new DataTable();
-                    dt2.Load(cmd2.ExecuteReader());
-                    foreach (DataRow ttt in dt2.Rows)
-                    {
-                        string time = Convert.ToString(ttt["TimeApp"]);
-                        for (int i = dtTime.Rows.Count - 1; i >= 0; i--)
+                        connection.Open();
+                        string Date_in = DpDate.Text;
+                        string DocID = Convert.ToString(dtDocName.Rows[CbDoc.SelectedIndex][0]);
+                        string query = $@"SELECT ScheduleStart FROM DocSchedule WHERE DocID = '{DocID}'  AND Day = '{Date_in}'";
+                        string query1 = $@"SELECT ScheduleEND FROM DocSchedule WHERE DocID = '{DocID}'  AND Day = '{Date_in}'";
+                        SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                        SQLiteCommand cmd1 = new SQLiteCommand(query1, connection);
+                        string start = Convert.ToString(cmd.ExecuteScalar());
+                        string end = Convert.ToString(cmd1.ExecuteScalar());
+                        DateTime schstart = DateTime.Parse(start);
+                        DateTime schend = DateTime.Parse(end);
+                        for (DateTime ii11 = schstart; ii11 < schend; ii11 = ii11.AddHours(0.25))
                         {
-                            DataRow dr = dtTime.Rows[i];
-                            if (dr["Time"].ToString() == time)
+                            DataRow _ravi = dtTime.NewRow();
+                            //MessageBox.Show(ii11.ToString("t"));
+                            _ravi["Time"] = ii11.ToString("t");
+                            dtTime.Rows.Add(_ravi);
+                        }
+                        string query2 = $@"SELECT TimeApp FROM Appointment WHERE DocID = '2'  AND DateApp = '{Date_in}'";
+                        SQLiteCommand cmd2 = new SQLiteCommand(query2, connection);
+                        DataTable dt2 = new DataTable();
+                        dt2.Load(cmd2.ExecuteReader());
+                        foreach (DataRow ttt in dt2.Rows)
+                        {
+                            string time = Convert.ToString(ttt["TimeApp"]);
+                            for (int i = dtTime.Rows.Count - 1; i >= 0; i--)
                             {
-                                dr.Delete();
+                                DataRow dr = dtTime.Rows[i];
+                                if (dr["Time"].ToString() == time)
+                                {
+                                    dr.Delete();
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show(ex.Message);
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -145,7 +151,9 @@ namespace Doctor
                         dt.Load(cmd.ExecuteReader());
                         AppPrint appPrint = new AppPrint(dt);
                         appPrint.Owner = this;
-/*                        appPrint.Close();*/
+                        MainWindow mainWindow = new MainWindow();
+                        mainWindow.Show();
+                        this.Close();
                     } 
                 }
             }
@@ -157,51 +165,80 @@ namespace Doctor
 
         private void CbSpec_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Load_DocName();
+            if (DpDate.Text != null || CbDoc.SelectedValue != null || CbTime.SelectedValue != null)
+            {
+                CbDoc.IsEnabled = true;
+                Load_DocName();
+                dtTime.Clear();
+                DpDate.Text = null;
+                DpDate.IsEnabled = false;
+                CbTime.IsEnabled = false;
+            }
         }
 
         private void CbDoc_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DpDate.BlackoutDates.Clear();
-            var dates = new List<DateTime>{};
+            
+                dtTime.Clear();
+                DpDate.Text = null;
+                DpDate.IsEnabled = true;
+                CbTime.IsEnabled = false;
+                DpDate.BlackoutDates.Clear();
+                var dates = new List<DateTime> { };
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(DBConnection.myConn))
                 {
                     connection.Open();
-                    string DocID = Convert.ToString(dtDocName.Rows[CbDoc.SelectedIndex][0]);
-                    string query = $@"SELECT Day FROM DocSchedule WHERE DocID = {DocID}";
-                    SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                    DataTable dt = new DataTable();
-                    dt.Load(cmd.ExecuteReader());
-                    foreach (DataRow dr in dt.Rows)
+                    if (CbDoc.SelectedValue != null)
                     {
-                        if (Convert.ToDateTime(dr[0]) >= DateTime.Today)
+
+                        string DocID = Convert.ToString(dtDocName.Rows[CbDoc.SelectedIndex][0]);
+                        string query1 = $@"SELECT COUNT(*) FROM DocSchedule WHERE DocID = {DocID}";
+                        SQLiteCommand cmd1 = new SQLiteCommand(query1, connection);
+                        int count = Convert.ToInt32(cmd1.ExecuteScalar());
+                        if (count != 0)
                         {
-                            dates.Add(Convert.ToDateTime(dr[0]));
+                            string query = $@"SELECT Day FROM DocSchedule WHERE DocID = {DocID}";
+                            SQLiteCommand cmd = new SQLiteCommand(query, connection);
+                            DataTable dt = new DataTable();
+                            dt.Load(cmd.ExecuteReader());
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                if (Convert.ToDateTime(dr[0]) >= DateTime.Today)
+                                {
+                                    dates.Add(Convert.ToDateTime(dr[0]));
+                                }
+                            }
+                            var firstDate = DateTime.Today.AddDays(-30);
+                            var lastDate = DateTime.Today.AddDays(30);
+                            var dateCounter = dates.First();
+                            DpDate.BlackoutDates.Add(new CalendarDateRange(firstDate, dateCounter.AddDays(-1)));
+                            foreach (var d in dates.Skip(1))
+                            {
+                                if (d.AddDays(-1).Date != dateCounter.Date)
+                                {
+                                    DpDate.BlackoutDates.Add(new CalendarDateRange(dateCounter.AddDays(1), d.AddDays(-1)));
+                                }
+                                dateCounter = d;
+                            }
+                            DpDate.BlackoutDates.Add(new CalendarDateRange(dateCounter.AddDays(1), lastDate));
+                            DpDate.DisplayDateStart = firstDate;
+                            DpDate.DisplayDateEnd = lastDate;
+                        }
+                        else
+                        {
+                            DpDate.IsEnabled = false;
+                            MessageBox.Show("У выбранного врача нет приёмных дней");
                         }
                     }
-                    var firstDate = DateTime.Today.AddDays(-30);
-                    var lastDate = DateTime.Today.AddDays(30);
-                    var dateCounter = dates.First();
-                    DpDate.BlackoutDates.Add(new CalendarDateRange(firstDate, dateCounter.AddDays(-1)));
-                    foreach (var d in dates.Skip(1))
-                    {
-                        if (d.AddDays(-1).Date != dateCounter.Date)
-                        {
-                            DpDate.BlackoutDates.Add(new CalendarDateRange(dateCounter.AddDays(1), d.AddDays(-1)));
-                        }
-                        dateCounter = d;
-                    }
-                    DpDate.BlackoutDates.Add(new CalendarDateRange(dateCounter.AddDays(1), lastDate));
-                    DpDate.DisplayDateStart = firstDate;
-                    DpDate.DisplayDateEnd = lastDate;
                 }
             }
             catch (SQLiteException ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            }
         }
-    }
+    
 }
